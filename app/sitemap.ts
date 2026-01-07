@@ -2,20 +2,16 @@ import { MetadataRoute } from 'next'
 import { supabase } from '../lib/supabaseClient';
 import { gameList } from './games/page';
 
-type Post = {
-  id: string | number;
-  title: string;
-  created_at: string | Date;
-  content: string;
-  slug: string;
-};
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://www.latific.click'
   const { data: posts, count } = await supabase
       .from('posts')
       .select('*', { count: 'exact' })
       .order('created_at', { ascending: false })
+      .range(0, 100);
+  const { data: lists, error } = await supabase
+      .from('todolists')
+      .select('*', { count: 'exact' })
       .range(0, 100);
 
   const postEntries: MetadataRoute.Sitemap = (posts || []).map((post) => ({
@@ -25,12 +21,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 1,
   }))
 
-  const gamesEntries: MetadataRoute.Sitemap = gameList.map((game) => ({
+  const todoListEntries: MetadataRoute.Sitemap = (lists || []).map((post) => ({
+    url: `${baseUrl}/blog/todo/${post.id}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 1,
+  }))
+
+  const gameEntries: MetadataRoute.Sitemap = gameList.map((game) => ({
     url: `${baseUrl}${game.url}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.2,
   }))
+
+  console.log(todoListEntries)
 
   return [
     {
@@ -51,6 +56,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly' as const,
       priority: 0.5,
     },
-    ...postEntries,...gamesEntries,
+    ...postEntries,...gameEntries,...todoListEntries,
   ]
 }
