@@ -25,8 +25,8 @@ export default function Icon() {
       <img
         src={`https://0.gravatar.com/avatar/${hash}?s=2048`}
         alt=""
-        width={80}
-        height={80}
+        width={2048}
+        height={2048}
         style={{
           width: '100%',
           height: '100%',
