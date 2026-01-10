@@ -74,7 +74,7 @@ export default function LikeButton({ post }: LikeButtonProps) {
             .catch((err) => {
                 console.error("Failed to like post:", err);
                 if (err.message == "Invalid anonymous user token") {
-                    getNewAnonToken()
+                    getNewAnonToken();
                 }
                 setError(err.message || "Failed to like");
                 setShowError(true);

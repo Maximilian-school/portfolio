@@ -13,8 +13,7 @@ export const gameList = [
     },
     {
         title: "Weird inventions",
-        description:
-            "Can be found in game!",
+        description: "Can be found in game!",
         url: "/games/weird-inventions",
     },
 ];

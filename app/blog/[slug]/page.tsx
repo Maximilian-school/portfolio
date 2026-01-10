@@ -1,12 +1,11 @@
 import ReactMarkdown from "react-markdown";
-// CodeBlock is a client component handling syntax highlighting and copy functionality
-import CodeBlock from "./CodeBlock";
 import { Metadata } from "next";
 import { getPost } from "@/app/api/post/route";
 import Link from "next/link";
 import rehypeRaw from "rehype-raw";
 import GetAnonToken from "../getAnonToken";
 import LikeButton from "./LikeButton";
+import MarkdownRenderer from "@/app/markdown-stuff/MarkdownRenderer";
 
 type Props = {
     params: Promise<{ slug: string }>;
@@ -140,90 +139,7 @@ export default async function Page({
                      dark:prose-li:text-gray-300 prose-li:text-gray-700
                       prose-img:rounded-lg prose-img:shadow-lg"
                 >
-                    <ReactMarkdown
-                        rehypePlugins={[rehypeRaw]}
-                        components={
-                            {
-                                // Use the client-side CodeBlock component for rendering code blocks
-                                code: CodeBlock,
-
-                                img({ src, alt }: any) {
-                                    // Video handling (unchanged)
-                                    if (src?.endsWith(".mp4")) {
-                                        return (
-                                            <span
-                                                className="md-video"
-                                                style={{ display: "block" }}
-                                            >
-                                                <video
-                                                    controls
-                                                    playsInline
-                                                    preload="metadata"
-                                                    style={{
-                                                        width: "100%",
-                                                        borderRadius: "12px",
-                                                    }}
-                                                >
-                                                    <source
-                                                        src={src}
-                                                        type="video/mp4"
-                                                    />
-                                                    {alt}
-                                                </video>
-                                            </span>
-                                        );
-                                    }
-                                    if (src && /\.(mp3|wav|ogg)$/i.test(src)) {
-                                        return (
-                                            <span
-                                                className="md-audio"
-                                                style={{ display: "block" }}
-                                            >
-                                                <audio
-                                                    controls
-                                                    preload="metadata"
-                                                    style={{ width: "100%" }}
-                                                >
-                                                    <source
-                                                        src={src}
-                                                        type={`audio/${src
-                                                            .split(".")
-                                                            .pop()
-                                                            ?.toLowerCase()}`}
-                                                    />
-                                                    Your browser does not
-                                                    support the audio element.
-                                                </audio>
-                                            </span>
-                                        );
-                                    }
-                                    // Default image rendering
-                                    return <img src={src} alt={alt} />;
-                                },
-
-                                steamgame({ node, children }: any) {
-                                    const appId = children;
-                                    return (
-                                        <iframe
-                                            src={`https://store.steampowered.com/widget/${appId}`}
-                                            style={{
-                                                border: 0,
-                                                width: "100%",
-                                                height: "190px",
-                                            }}
-                                            frameBorder="0"
-                                            scrolling="no"
-                                        >
-                                            Either your browser doesn't support
-                                            iframes or steam is unavailable!
-                                        </iframe>
-                                    );
-                                },
-                            } as any
-                        }
-                    >
-                        {post.content}
-                    </ReactMarkdown>
+                    <MarkdownRenderer content={post.content} />
                 </div>
             </article>
             <GetAnonToken />

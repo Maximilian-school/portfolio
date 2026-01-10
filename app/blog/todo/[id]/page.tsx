@@ -1,6 +1,7 @@
 "use client";
 
 import { TodoCategory, TodoList } from "@/app/api/todo/route";
+import MarkdownRenderer from "@/app/markdown-stuff/MarkdownRenderer";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -57,7 +58,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     }
 
     return (
-        <div className="max-w-8xl py-12 space-y-8 mx-4 md:mx-auto px-16">
+        <div className="max-w-8xl mx-auto px-4 py-12 space-y-8">
             <header className="mb-8">
                 <h1 className="text-4xl md:text-5xl font-bold dark:text-gray-100 text-gray-900 mb-4">
                     {list.name}
@@ -97,10 +98,26 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                                             <h4 className="text-lg font-bold text-gray-100 mb-4">
                                                 {card.title}
                                             </h4>
-                                            <p className="block max-w-[400px] wrap-break-word whitespace-pre-wrap text-md text-gray-200">
-                                                {card.description ??
-                                                    "No description"}
-                                            </p>
+                                            <div
+                                                className="prose prose-md prose-slate max-w-[400px]
+                                                                  prose-headings:font-bold dark:prose-headings:text-gray-100 prose-headings:text-gray-900
+                                                                  dark:prose-p:text-gray-300 prose-p:text-gray-700 prose-p:leading-relaxed
+                                                                  prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline
+                                                                 dark:prose-strong:text-gray-100 prose-strong:text-gray-900 prose-strong:font-semibold
+                                                                  prose-code:text-gray-200 prose-code:font-mono prose-code:font-light prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:before:content-[''] prose-code:after:content-['']
+                                                                  prose-pre:bg-transparent prose-pre:p-0
+                                                                  prose-blockquote:border-l-4 prose-blockquote:text-gray-100 dark:prose-blockquote:text-gray-100 prose-blockquote:border-blue-500 dark:prose-blockquote:border-blue-400 dark:prose-blockquote:bg-gray-600 prose-blockquote:bg-gray-100 prose-blockquote:py-2 prose-blockquote:px-4
+                                                                  prose-ul:list-disc prose-ol:list-decimal
+                                                                 dark:prose-li:text-gray-300 prose-li:text-gray-700
+                                                                  prose-img:rounded-lg prose-img:shadow-lg"
+                                            >
+                                                <MarkdownRenderer
+                                                    content={
+                                                        card.description ??
+                                                        "*No description*"
+                                                    }
+                                                />
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
