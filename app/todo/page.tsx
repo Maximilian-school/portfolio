@@ -1,5 +1,5 @@
 import { TodoList } from "@/app/api/todo/route";
-import { supabase } from "../../../lib/supabaseClient";
+import { supabase } from "../../lib/supabaseClient";
 import Link from "next/link";
 
 interface TodoPageProps {
@@ -34,7 +34,7 @@ export default async function TodoPage({ searchParams }: TodoPageProps) {
                     </h2>
                     <div className="line-clamp-3 dark:text-gray-300 text-gray-900"></div>
                     <Link
-                        href={`/blog/todo/${post.id}`}
+                        href={`/todo/${post.id}`}
                         className="text-blue-500 hover:underline mt-2 block"
                     >
                         Open todo list
@@ -45,7 +45,7 @@ export default async function TodoPage({ searchParams }: TodoPageProps) {
             <div className="flex gap-3 justify-center items-center dark:text-gray-300">
                 {page > 1 && (
                     <Link
-                        href={`/blog/todo?page=${page - 1}`}
+                        href={`/todo?page=${page - 1}`}
                         className="h-10 px-4 flex items-center justify-center bg-gray-700 text-gray-900 rounded-md cursor-pointer"
                     >
                         Previous
@@ -58,21 +58,12 @@ export default async function TodoPage({ searchParams }: TodoPageProps) {
 
                 {page < pageCount && (
                     <Link
-                        href={`/blog/todo?page=${page + 1}`}
+                        href={`/todo?page=${page + 1}`}
                         className="h-10 px-4 flex items-center justify-center bg-gray-700 text-gray-900 cursor-pointer"
                     >
                         Next
                     </Link>
                 )}
-            </div>
-
-            <div className="w-full text-center left-0 right-0 bottom-16 flex justify-center">
-                <a
-                    href="/blog"
-                    className="text-blue-500 hover:underline mt-2 block w-fit"
-                >
-                    Go to back to blog
-                </a>
             </div>
         </div>
     );

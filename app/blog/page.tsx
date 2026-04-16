@@ -80,14 +80,6 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                     </Link>
                 )}
             </div>
-            <div className="w-full text-center left-0 right-0 bottom-16 flex justify-center">
-                <a
-                    href="/blog/todo"
-                    className="text-blue-500 hover:underline mt-2 block w-fit"
-                >
-                    Go to to-do lists
-                </a>
-            </div>
             <GetAnonToken />
         </div>
     );
