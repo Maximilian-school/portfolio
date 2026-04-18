@@ -116,7 +116,7 @@ export default async function Home() {
             <div className="flex flex-col max-w-4xl mx-auto gap-6">
                 {/* Profile Section */}
                 <div className="flex items-center text-left gap-6">
-                    <Image src="/icon" alt="Icon" width={256} height={256} />
+                    <Image src="/icon" alt="Icon" width={128} height={128} />
                     <span>
                         <h1 className="text-4xl font-bold mb-4">Maximilian</h1>
                         <h2 className="text-xl font-semibold">

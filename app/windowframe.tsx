@@ -1,9 +1,9 @@
-"use server";
+"use client";
 
 import { Gamepad, HomeIcon, MenuSquare, ScrollIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { Suspense } from "react";
+import React, { Suspense, useRef } from "react";
 import Loading from "./loading";
 
 const navItems = [
@@ -13,23 +13,45 @@ const navItems = [
     { label: "Games", icon: <Gamepad size={16} />, href: "/games" },
 ];
 
-export default async function MainAppBar({
+export default function MainAppBar({
     children,
 }: {
     children: React.ReactNode;
 }) {
+    const windowRef = useRef<HTMLDivElement | null>(null);
+
     return (
         <div className="max-h-dvh h-dvh w-screen p-2 m-0 overflow-hidden bg-transparent">
-            <div className="window glass active h-full w-full flex flex-col">
+            <div
+                className="window glass active h-full w-full flex flex-col"
+                ref={windowRef}
+            >
                 <div className="title-bar">
                     <div className="title-bar-text flex items-center gap-2">
                         <Image src="/icon" alt="Icon" width={16} height={16} />{" "}
                         Maximilian's amazing site
                     </div>
                     <div className="title-bar-controls">
-                        <button aria-label="Minimize" />
-                        <button aria-label="Maximize" />
-                        <button aria-label="Close" />
+                        <button aria-label="Minimize" disabled />
+                        <button
+                            aria-label="Maximize"
+                            onClick={() => {
+                                if (document.fullscreenEnabled) {
+                                    document.exitFullscreen();
+                                }
+                                if (windowRef.current) {
+                                    windowRef.current.requestFullscreen();
+                                }
+                            }}
+                        />
+                        <button
+                            aria-label="Close"
+                            onClick={() => {
+                                if (document.fullscreenEnabled) {
+                                    document.exitFullscreen();
+                                }
+                            }}
+                        />
                     </div>
                 </div>
 
