@@ -1,9 +1,9 @@
-export default function Loading() {
+export default function LoadingTemplate() {
     return (
-        <div className="max-w-4xl mx-auto px-4 py-16">
-            {/* <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <p className="text-blue-800">Loading homepage</p>
-        </div> */}
+        <div className="flex flex-col max-w-4xl mx-auto gap-6">
+            <h1 className="text-4xl font-semibold">Please wait</h1>
+
+            <div role="progressbar" className="marquee" />
         </div>
     );
 }

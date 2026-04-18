@@ -1,76 +1,213 @@
+import MainAppBar from "@/components/windowframe";
+import {
+    CuboidIcon,
+    GitBranch,
+    Pickaxe,
+    VideoIcon,
+    WrenchIcon,
+} from "lucide-react";
 import Image from "next/image";
-import { supabase } from "../lib/supabaseClient";
 import Link from "next/link";
-import SocialLinks from "./socalLinks";
-import Languages from "./languages";
-import Technologies from "./tech";
 
-export default async function Page() {
-    const { data: top_langs, count } = await supabase
-        .from("top_langs")
-        .select("*", { count: "exact" })
-        .order("lines", { ascending: false });
+const languages = [
+    {
+        name: "TypeScript",
+        icon: <i className="devicon-typescript-plain colored" />,
+    },
+    {
+        name: "JavaScript",
+        icon: <i className="devicon-javascript-plain colored" />,
+    },
+    {
+        name: "Lua/Luau",
+        icon: <i className="devicon-lua-plain colored" />,
+    },
+    {
+        name: "GDScript",
+        icon: <i className="devicon-godot-plain colored" />,
+    },
+    {
+        name: "Java",
+        icon: <i className="devicon-java-plain colored" />,
+    },
+    {
+        name: "C#",
+        icon: <i className="devicon-csharp-plain colored" />,
+    },
+    {
+        name: "HTML",
+        icon: <i className="devicon-html5-plain colored" />,
+    },
+    {
+        name: "CSS",
+        icon: <i className="devicon-css3-plain colored" />,
+    },
+];
 
+const frameworksAndEngines = [
+    {
+        name: "React",
+        icon: <i className="devicon-react-plain colored" />,
+    },
+    {
+        name: "Unity",
+        icon: <i className="devicon-unity-plain colored" />,
+    },
+    {
+        name: "Godot",
+        icon: <i className="devicon-godot-plain colored" />,
+    },
+    {
+        name: "Next.js",
+        icon: <i className="devicon-nextjs-plain colored" />,
+    },
+    {
+        name: "Minecraft Modding",
+        icon: <Pickaxe />,
+    },
+    {
+        name: "Supabase",
+        icon: <i className="devicon-supabase-plain colored" />,
+    },
+    {
+        name: "Firebase",
+        icon: <i className="devicon-firebase-plain colored" />,
+    },
+    {
+        name: "PostgreSQL",
+        icon: <i className="devicon-postgresql-plain colored" />,
+    },
+    {
+        name: "Tailwind CSS",
+        icon: <i className="devicon-tailwindcss-plain colored" />,
+    },
+    {
+        name: "Vercel",
+        icon: <i className="devicon-vercel-plain colored" />,
+    },
+];
+
+const links = [
+    {
+        name: "Youtube",
+        icon: <VideoIcon />,
+        href: "https://www.youtube.com/@maximilian11121",
+    },
+    {
+        name: "Github",
+        icon: <GitBranch />,
+        href: "https://www.github.com/maximilian1121",
+    },
+    {
+        name: "Modrinth",
+        icon: <WrenchIcon />,
+        href: "https://modrinth.com/user/Max111",
+    },
+    {
+        name: "Roblox dev group",
+        icon: <CuboidIcon />,
+        href: "https://www.roblox.com/communities/33088361/Maximilians-dungeon",
+    },
+];
+
+export default async function Home() {
     return (
-        <div className="max-w-5xl py-12 space-y-8 mx-2 md:mx-auto">
-            <div
-                className="flex items-center justify-center gap-6"
-                id="profile-card"
-            >
-                <Image
-                    alt="Profile picture"
-                    width={256}
-                    height={256}
-                    className="rounded-full h-32 w-32 md:h-64 md:w-64"
-                    src="/icon"
-                />
-                <div className="flex flex-col gap-7">
-                    <h1 className="text-2xl md:text-4xl font-semibold">
-                        Maximilian
+        <MainAppBar>
+            <div className="flex flex-col max-w-4xl mx-auto gap-6 px-4">
+                {" "}
+                {/* Added horizontal padding for mobile */}
+                {/* Profile Section */}
+                <div className="flex items-center text-left gap-6">
+                    <Image
+                        src="/icon"
+                        alt="Icon"
+                        width={128}
+                        height={128}
+                        className="w-20 h-20 sm:w-32 sm:h-32 object-contain"
+                    />
+                    <span>
+                        <h1 className="sm:text-4xl text-2xl font-semibold sm:font-bold mb-2 sm:mb-4">
+                            Maximilian
+                        </h1>
+                        <h2 className="sm:text-xl text-md font-semibold">
+                            Hobby dev (Games/Apps)
+                        </h2>
+                    </span>
+                </div>
+                <span className="flex flex-col gap-4">
+                    <h1 className="sm:text-4xl text-2xl font-semibold sm:font-bold mb-2 sm:mb-4">
+                        Biography
                     </h1>
-                    <h2 className="text-1xl md:text-2xl font-semibold">
-                        Average hobby developer
-                    </h2>
-                </div>
-            </div>
-            <div className="flex gap-10 align-top justify-center flex-col transition-all">
-                <div className="flex flex-col md:text-2xl text-lg justify-center align-middle">
-                    <h1 className="text-center text-4xl">About me</h1>
-                    <p className="mt-4 text-lg text-center">
-                        Hi, I'm Maximilian. I'm spending a lot of my time to
-                        make a single Roblox game. I cant say just yet what it
-                        it is or what it's about, but I can say that it has
-                        car's I love making games and I find that im really good
-                        at making funny additions to such games or Minecraft
-                        mods. Speaking of Minecraft mods, anyone who uses
-                        anything but fabric is WRONG! Fabric is my personal go
-                        to for making Mods It's API I remember by heart and I
-                        love using it. I also spend time working on side
-                        projects like this site. Thats not all tho, I also work
-                        on a few open source projects on GitHub. I also game,
-                        duh. My favorite games of all time in order are probably
-                        Boneworks, Minecraft, and Roblox (the game studio).
+                    <p className="sm:text-lg text-md">
+                        I'm a hobby developer with a passion for creating games
+                        and apps. I started programming at a young age and have
+                        been learning ever since. I enjoy working on projects
+                        that challenge me and allow me to learn new things.
                     </p>
-                </div>
-                <div className="flex flex-col gap-10 lg:gap-0 lg:flex-row md:text-2xl text-lg items-top w-full">
-                    <div className="flex-1 basis-1/2">
-                        <h1 className="text-center text-4xl w-full">
-                            Languages
-                        </h1>
-                        <Languages />
+                </span>
+                <div className="flex flex-col gap-4">
+                    <h1 className="sm:text-4xl text-2xl font-semibold sm:font-bold mb-2 sm:mb-4">
+                        Skills/Abilities
+                    </h1>
+                    <h2 className="sm:text-2xl text-xl font-semibold">
+                        Languages
+                    </h2>
+                    {/* Removed max-h-32 to allow proper wrapping on small screens */}
+                    <div className="flex flex-wrap gap-x-8 gap-y-4 justify-start items-center w-full">
+                        {languages.map((lang, index) => (
+                            <div
+                                key={index}
+                                /* text-2xl on mobile, text-4xl on desktop for devicons */
+                                /* [&>svg]: size control for lucide icons if any */
+                                className="text-2xl sm:text-4xl flex items-center gap-2 sm:gap-4 w-fit [&>svg]:w-6 [&>svg]:h-6 sm:[&>svg]:w-10 sm:[&>svg]:h-10"
+                            >
+                                {lang.icon}{" "}
+                                <h1 className="sm:text-lg text-sm">
+                                    {lang.name}
+                                </h1>
+                            </div>
+                        ))}
                     </div>
-                    <div className="flex-1 basis-1/2">
-                        <h1 className="text-center text-4xl w-full">
-                            Technologies
-                        </h1>
-                        <Technologies />
+
+                    <h2 className="sm:text-2xl text-xl font-semibold mt-4">
+                        Frameworks/Game engines
+                    </h2>
+                    <div className="flex flex-wrap gap-x-8 gap-y-4 justify-start items-center w-full">
+                        {frameworksAndEngines.map((eng, index) => (
+                            <div
+                                key={index}
+                                className="text-2xl sm:text-4xl flex items-center gap-2 sm:gap-4 w-fit [&>svg]:w-6 [&>svg]:h-6 sm:[&>svg]:w-10 sm:[&>svg]:h-10"
+                            >
+                                {eng.icon}{" "}
+                                <h1 className="sm:text-lg text-sm">
+                                    {eng.name}
+                                </h1>
+                            </div>
+                        ))}
                     </div>
                 </div>
-                <div className="flex flex-col md:text-2xl text-lg justify-center align-middle">
-                    <h1 className="text-center text-4xl">Links</h1>
-                    <SocialLinks />
-                </div>
+                <span className="flex flex-col gap-4 mt-4">
+                    <h1 className="sm:text-4xl text-2xl font-semibold sm:font-bold mb-2 sm:mb-4">
+                        Links
+                    </h1>
+                    <div className="flex flex-wrap gap-4 sm:gap-6">
+                        {links.map((link, index) => (
+                            <Link
+                                key={index}
+                                href={link.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 [&>svg]:w-5 [&>svg]:h-5 sm:[&>svg]:w-6 sm:[&>svg]:h-6 hover:opacity-80 transition-opacity"
+                            >
+                                {link.icon}{" "}
+                                <h1 className="sm:text-lg text-sm">
+                                    {link.name}
+                                </h1>
+                            </Link>
+                        ))}
+                    </div>
+                </span>
             </div>
-        </div>
+        </MainAppBar>
     );
 }

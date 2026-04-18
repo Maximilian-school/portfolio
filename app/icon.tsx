@@ -1,6 +1,5 @@
-import { ImageResponse } from "next/og";
 import crypto from "crypto";
-import { getMaxListeners } from "events";
+import { ImageResponse } from "next/og";
 
 // Image metadata
 export const size = {
@@ -21,21 +20,19 @@ export default function Icon() {
     const hash = getGravatarHash("latificlynch@gmail.com");
 
     return new ImageResponse(
-        (
-            <img
-                src={`https://0.gravatar.com/avatar/${hash}?s=2048`}
-                alt=""
-                width={2048}
-                height={2048}
-                style={{
-                    width: "100%",
-                    height: "100%",
-                    borderRadius: "9999px",
-                }}
-            />
-        ),
+        <img
+            src={`https://0.gravatar.com/avatar/${hash}?s=2048`}
+            alt=""
+            width={2048}
+            height={2048}
+            style={{
+                width: "100%",
+                height: "100%",
+                borderRadius: "100%",
+            }}
+        />,
         {
             ...size,
-        }
+        },
     );
 }
