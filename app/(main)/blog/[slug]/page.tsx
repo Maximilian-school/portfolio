@@ -67,7 +67,7 @@ export async function generateMetadata({
             title,
             description,
             url: `https://latific.click/blog/${slug}`,
-            siteName: "Brand Name",
+            siteName: "Maximilians amazing site - blog",
             images: images.map((url) => ({
                 url,
                 width: 1200,
