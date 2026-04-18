@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans } from "next/font/google";
-import MainAppBar from "./appbar";
+import MainAppBar from "./windowframe";
 import "./globals.css";
 import "7.css";
 import "devicon/devicon.min.css";

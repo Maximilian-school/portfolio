@@ -50,7 +50,7 @@ export default async function MainAppBar({
                         ))}
                     </nav>
 
-                    <main className="flex-grow p-5 overflow-y-auto bg-white/80 text-black">
+                    <main className="flex-none p-5 overflow-y-auto bg-white/80 text-black">
                         <Suspense fallback={<Loading />}>{children}</Suspense>
                     </main>
                 </div>

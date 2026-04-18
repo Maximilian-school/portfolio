@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import MainAppBar from "./appbar";
+import MainAppBar from "./windowframe";
 
 const languages = [
     {
@@ -138,7 +138,7 @@ export default async function Home() {
                 <div className="flex flex-col gap-4">
                     <h1 className="text-4xl font-semibold">Skills/Abilities</h1>
                     <h2 className="text-2xl font-semibold">Languages</h2>
-                    <div className="max-h-32 flex flex-col gap-4 flex-wrap justify-around w-full">
+                    <div className="max-h-32 flex flex-col gap-4 flex-wrap justify-center items-center w-full">
                         {languages.map((lang, index) => (
                             <div
                                 key={index}
@@ -152,7 +152,7 @@ export default async function Home() {
                     <h2 className="text-2xl font-semibold">
                         Frameworks/Game engines
                     </h2>
-                    <div className="max-h-32 flex flex-col gap-4 flex-wrap justify-around w-full">
+                    <div className="max-h-32 flex flex-col gap-4 flex-wrap justify-center items-center w-full">
                         {frameworksAndEngines.map((eng, index) => (
                             <div
                                 key={index}

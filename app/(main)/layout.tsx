@@ -1,4 +1,4 @@
-import MainAppBar from "../appbar";
+import MainAppBar from "../windowframe";
 
 export default function MainLayout({
     children,
