@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
-import BlogExplorer from "./BlogExplorer";
+import BlogExplorer from "../../../components/BlogExplorer";
 
 export default async function BlogPage() {
     const supabase = createClient(await cookies());

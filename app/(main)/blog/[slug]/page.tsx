@@ -6,6 +6,7 @@ import { useMDXComponents } from "@/mdx-components";
 import "katex/dist/katex.min.css";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import { BreadcrumbEmitter } from "@/components/BreadcrumbEmitter";
 
 export default async function BlogPage({
     params,
@@ -112,6 +113,7 @@ $$\\pi \\approx ${3.14159265359}$$
             <header>
                 <h1 className="text-2xl font-bold">
                     {data?.title || "Untitled"}
+                    <BreadcrumbEmitter name={data?.title || "Untitled"} />
                 </h1>
                 <p className="text-gray-600 text-lg">
                     {new Date(

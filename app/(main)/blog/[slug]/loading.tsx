@@ -1,5 +1,11 @@
+import { BreadcrumbEmitter } from "@/components/BreadcrumbEmitter";
 import LoadingTemplate from "@/app/loading";
 
 export default function Loading() {
-    return <LoadingTemplate />;
+    return (
+        <>
+            <LoadingTemplate />
+            <BreadcrumbEmitter name={"Blog post..."} />
+        </>
+    );
 }

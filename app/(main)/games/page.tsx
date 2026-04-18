@@ -40,7 +40,7 @@ export default function Games() {
     }, [searchTerm, sortBy, order]);
 
     return (
-        <div className="flex flex-col max-w-4xl mx-auto gap-6 p-4">
+        <div className="flex flex-col max-w-4xl mx-auto gap-6">
             <fieldset>
                 <legend>Game Directory</legend>
                 <div className="field-row flex-wrap flex gap-4">
@@ -152,11 +152,6 @@ export default function Games() {
                         </div>
                     </div>
                 ))}
-            </div>
-
-            <div className="status-bar flex gap-4 text-sm border-t border-gray-300 pt-2 text-gray-600">
-                <p>Games Found: {filteredGames.length}</p>
-                <p>System: Online</p>
             </div>
         </div>
     );

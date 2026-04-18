@@ -1,6 +1,6 @@
 "use client";
 
-import ErrorTemplate from "./error-template";
+import ErrorTemplate from "../components/error-template";
 
 const notFoundMessages: string[] = [
     "This page has ascended to a higher plane of consciousness. It no longer concerns itself with 'URLs'.",

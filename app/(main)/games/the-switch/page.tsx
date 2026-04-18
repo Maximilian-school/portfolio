@@ -1,6 +1,7 @@
 "use client";
+import { BreadcrumbEmitter } from "@/components/BreadcrumbEmitter";
 import { createClient } from "@/utils/supabase/client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 
 export default function TheSwitch() {
     const [switchState, setSwitchState] = useState<boolean>(false);
@@ -9,6 +10,11 @@ export default function TheSwitch() {
     const supabase = createClient();
 
     const lastClickTime = useRef<number>(0);
+
+    const sessionId = useMemo(
+        () => Math.random().toString(36).substring(2, 15),
+        [],
+    );
 
     useEffect(() => {
         const getInitialState = async () => {
@@ -22,7 +28,7 @@ export default function TheSwitch() {
         getInitialState();
 
         const channel = supabase.channel("the-switch-room", {
-            config: { presence: { key: "user" } },
+            config: { presence: { key: sessionId } },
         });
 
         channel
@@ -55,7 +61,7 @@ export default function TheSwitch() {
         return () => {
             supabase.removeChannel(channel);
         };
-    }, [supabase]);
+    }, [supabase, sessionId]);
 
     const toggleSwitch = async () => {
         const now = Date.now();
@@ -81,6 +87,7 @@ export default function TheSwitch() {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-full gap-6 p-4">
+            <BreadcrumbEmitter name={"The Switch"} />
             <div className="text-center">
                 <h1 className="font-bold text-4xl mb-2">The Switch</h1>
                 <p className="text-sm opacity-70">

@@ -1,3 +1,4 @@
+import MainAppBar from "@/components/windowframe";
 import {
     CuboidIcon,
     GitBranch,
@@ -7,7 +8,6 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import MainAppBar from "./windowframe";
 
 const languages = [
     {
