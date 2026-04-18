@@ -19,7 +19,7 @@ export default async function MainAppBar({
     children: React.ReactNode;
 }) {
     return (
-        <div className="h-[100vh] w-screen p-2 m-0 overflow-hidden bg-transparent">
+        <div className="h-[100dvh] w-screen p-2 m-0 overflow-hidden bg-transparent">
             <div className="window glass active h-full w-full flex flex-col">
                 <div className="title-bar">
                     <div className="title-bar-text flex items-center gap-2">
