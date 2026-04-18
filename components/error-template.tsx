@@ -369,6 +369,7 @@ export default function ErrorTemplate({
                             Critical error occurred when trying to compute next
                             anger message!
                         </h1>
+                        <div className="flex gap-4 mt-4">{actions}</div>
                     </div>
                 )}
             </div>
