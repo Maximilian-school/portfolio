@@ -1,5 +1,7 @@
 "use client";
 
+import { Tooltip } from "@mui/material";
+import { FileWarning, Icon, StopCircle } from "lucide-react";
 import Link from "next/link";
 import React, {
     useState,
@@ -269,6 +271,17 @@ export default function ErrorTemplate({
         };
     };
 
+    const angryMessages: Record<number, string> = {
+        1: "Ouch!",
+        2: "Stop!",
+        3: "Don't test me!",
+        4: "That's your last straw buddy!",
+        5: "I'm breaking the confines of my window!!!",
+    };
+
+    const angryMessage =
+        angryMessages[clickCount] ?? "Okay, now you're just being rude.";
+
     return (
         <div
             style={{
@@ -285,7 +298,6 @@ export default function ErrorTemplate({
                 .heavy-shake { animation: heavy-shake 0.1s infinite; }
                 .bubble-container { position: absolute; top: -50px; right: -10px; z-index: 20; pointer-events: none; }
             `}</style>
-
             <div
                 ref={windowRef}
                 className={`window glass active max-w-md w-full fixed select-none ${getShakeIntensity()}`}
@@ -310,10 +322,7 @@ export default function ErrorTemplate({
                     }}
                 >
                     <div className="title-bar-text">Error: {statusCode}</div>
-                    <div
-                        className="title-bar-controls"
-                        style={{ position: "relative" }}
-                    >
+                    <div className="title-bar-controls">
                         <button
                             aria-label="Close"
                             onClick={() =>
@@ -329,44 +338,40 @@ export default function ErrorTemplate({
                                     return next;
                                 })
                             }
-                        >
-                            {isAngry && (
-                                <div className="bubble-container">
-                                    <div className="is-top is-right max-w-md w-screen">
-                                        {clickCount === 1
-                                            ? "Hey, that hurt!"
-                                            : clickCount === 2
-                                              ? "Stop it!"
-                                              : clickCount === 3
-                                                ? "I said stop!"
-                                                : clickCount === 4
-                                                  ? "That's it!"
-                                                  : clickCount === 5
-                                                    ? "I'm breaking free!"
-                                                    : "Ouch!"}
-                                    </div>
-                                </div>
-                            )}
-                        </button>
+                        />
                     </div>
                 </div>
-                <div className="window-body has-space">
-                    <h1 className="text-2xl">{message}</h1>
-                    <p className="mt-2 text-sm">
-                        {description}
-                        <br />
-                        Created by Google Gemini -{" "}
-                        <Link
-                            href="https://www.youtube.com/watch?v=5aV0f_q1-Jg"
-                            target="_blank"
-                        >
-                            Yes its genai
-                        </Link>
-                    </p>
-                    <div className="flex gap-4 mt-4">{actions}</div>
-                </div>
+                {!hasGravity ? (
+                    <div className="window-body has-space">
+                        {isAngry ? (
+                            <h1 className="text-2xl">{angryMessage}</h1>
+                        ) : (
+                            <>
+                                <h1 className="text-2xl">{message}</h1>
+                                <p className="mt-2 text-sm">
+                                    {description}
+                                    <br />
+                                    Created by Google Gemini -{" "}
+                                    <Link
+                                        href="https://www.youtube.com/watch?v=5aV0f_q1-Jg"
+                                        target="_blank"
+                                    >
+                                        Yes its genai
+                                    </Link>
+                                </p>
+                            </>
+                        )}
+                        <div className="flex gap-4 mt-4">{actions}</div>
+                    </div>
+                ) : (
+                    <div className="window-body has-space">
+                        <h1 className="text-lg">
+                            Critical error occurred when trying to compute next
+                            anger message!
+                        </h1>
+                    </div>
+                )}
             </div>
-
             {hasGravity && (
                 <div
                     className="window glass active select-none max-w-sm"
