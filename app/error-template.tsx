@@ -47,6 +47,7 @@ export default function ErrorTemplate({
     const [gravity, setGravity] = useState(DEFAULTS.GRAVITY);
     const [bounce, setBounce] = useState(DEFAULTS.BOUNCE);
     const [friction, setFriction] = useState(DEFAULTS.FRICTION);
+    const [windowsSpawned, setWindowsSpawned] = useState(0);
 
     const gravityRef = useRef(DEFAULTS.GRAVITY);
     const bounceRef = useRef(DEFAULTS.BOUNCE);
@@ -223,21 +224,22 @@ export default function ErrorTemplate({
         <div style={{ position: "fixed", inset: 0, overflow: "hidden" }}>
             <style>{`
                 @keyframes light-shake {
-                    0% { transform: translate(0,0); }
-                    25% { transform: translate(1px, 1px); }
-                    50% { transform: translate(-1px, -1px); }
-                    75% { transform: translate(1px, -1px); }
-                    100% { transform: translate(0,0); }
-                }
-                @keyframes heavy-shake {
-                    0% { transform: translate(0,0); }
-                    10% { transform: translate(-3px, -2px); }
-                    30% { transform: translate(3px, 2px); }
-                    50% { transform: translate(-3px, 2px); }
-                    70% { transform: translate(3px, -2px); }
-                    90% { transform: translate(-1px, -1px); }
-                    100% { transform: translate(0,0); }
-                }
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(1px, 1px) rotate(0.5deg); }
+    50% { transform: translate(-1px, -1px) rotate(-0.5deg); }
+    75% { transform: translate(1px, -1px) rotate(0.5deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+@keyframes heavy-shake {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    10% { transform: translate(-3px, -2px) rotate(-2deg); }
+    30% { transform: translate(3px, 2px) rotate(2deg); }
+    50% { transform: translate(-3px, 2px) rotate(-3deg); }
+    70% { transform: translate(3px, -2px) rotate(3deg); }
+    90% { transform: translate(-1px, -1px) rotate(-1deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
                 .light-shake { animation: light-shake 0.2s infinite; }
                 .heavy-shake { animation: heavy-shake 0.1s infinite; }
                 .bubble-container {
