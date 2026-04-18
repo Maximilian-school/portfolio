@@ -2,7 +2,10 @@ import { Blog } from "@/app/types";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import MDXComponents from "@/app/mdx-components/mdx-components";
+import { useMDXComponents } from "@/mdx-components";
+import "katex/dist/katex.min.css";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 
 export default async function BlogPage({
     params,
@@ -83,6 +86,9 @@ This is a test of the **MDX provider** and custom component mapping.
 Testing LaTeX integration for math-heavy docs:
 $$E = mc^2$$
 
+Display of pi
+$$\\pi \\approx ${3.14159265359}$$
+
 > **Note:** If the Steam widget above shows as raw text, check your component mapping object in the MDX provider.`,
             created_at: new Date().toISOString(),
             slug: "test",
@@ -117,7 +123,13 @@ $$E = mc^2$$
                 {data ? (
                     <MDXRemote
                         source={data.content || "No content available."}
-                        components={MDXComponents()}
+                        components={useMDXComponents({})}
+                        options={{
+                            mdxOptions: {
+                                remarkPlugins: [remarkMath],
+                                rehypePlugins: [rehypeKatex],
+                            },
+                        }}
                     />
                 ) : (
                     <p>Blog post not found.</p>

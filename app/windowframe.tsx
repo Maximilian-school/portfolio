@@ -21,7 +21,7 @@ export default function MainAppBar({
     const windowRef = useRef<HTMLDivElement | null>(null);
 
     return (
-        <div className="max-h-dvh h-dvh w-screen p-2 m-0 overflow-hidden bg-transparent">
+        <div className="max-h-dvh h-dvh w-screen sm:p-2 m-0 overflow-hidden bg-transparent">
             <div
                 className="window glass active h-full w-full flex flex-col"
                 ref={windowRef}
@@ -72,7 +72,7 @@ export default function MainAppBar({
                         ))}
                     </nav>
 
-                    <main className="flex-1 pt-2 overflow-auto text-black has-scrollbar">
+                    <main className="flex-1 overflow-auto text-black has-scrollbar p-2">
                         <Suspense fallback={<Loading />}>{children}</Suspense>
                     </main>
                 </div>

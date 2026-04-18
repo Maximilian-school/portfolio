@@ -21,12 +21,15 @@
     "7.css": "^0.21.1",
     "devicon": "^2.17.0",
     "install": "^0.13.0",
+    "katex": "^0.16.45",
     "lucide-react": "^1.8.0",
     "next": "16.2.4",
     "next-mdx-remote": "^6.0.0",
     "npm": "^11.12.1",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

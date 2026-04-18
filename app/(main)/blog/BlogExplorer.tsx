@@ -76,7 +76,7 @@ export default function BlogExplorer({
         <div className="flex flex-col max-w-4xl mx-auto gap-6">
             <fieldset>
                 <legend>Library Tools</legend>
-                <div className="field-row flex gap-2">
+                <div className="field-row flex-wrap flex gap-2">
                     <div className="flex items-center gap-2">
                         <label htmlFor="search">Search:</label>
                         <input
