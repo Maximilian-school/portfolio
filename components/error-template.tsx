@@ -50,32 +50,42 @@ export default function ErrorTemplate({
     const [friction, setFriction] = useState(DEFAULTS.FRICTION);
 
     const gravityRef = useRef(DEFAULTS.GRAVITY);
-    const gyroGravityRef = useRef({ x: 0, y: DEFAULTS.GRAVITY }); // Vector for tilt
+    const gyroGravityRef = useRef({ x: 0, y: DEFAULTS.GRAVITY });
     const bounceRef = useRef(DEFAULTS.BOUNCE);
     const frictionRef = useRef(DEFAULTS.FRICTION);
 
     const isAngry = clickCount > 0 && !hasGravity;
 
-    // --- GYROSCOPE LOGIC ---
-    const requestGyro = async () => {
-        // We cast to 'any' to prevent TypeScript from complaining about
-        // the non-standard requestPermission method during the build.
-        const DeviceMoveEvent = DeviceOrientationEvent as any;
+    const getShakeIntensity = () => {
+        if (hasGravity) return "";
+        if (clickCount >= 4) return "heavy-shake";
+        if (clickCount >= 2) return "light-shake";
+        return "";
+    };
 
+    const resetPhysics = () => {
+        setGravity(DEFAULTS.GRAVITY);
+        setBounce(DEFAULTS.BOUNCE);
+        setFriction(DEFAULTS.FRICTION);
+        gravityRef.current = DEFAULTS.GRAVITY;
+        bounceRef.current = DEFAULTS.BOUNCE;
+        frictionRef.current = DEFAULTS.FRICTION;
+        setGyroEnabled(false);
+    };
+
+    const requestGyro = async () => {
+        const DeviceMoveEvent = DeviceOrientationEvent as any;
         if (
             typeof DeviceMoveEvent !== "undefined" &&
             typeof DeviceMoveEvent.requestPermission === "function"
         ) {
             try {
                 const permission = await DeviceMoveEvent.requestPermission();
-                if (permission === "granted") {
-                    setGyroEnabled(true);
-                }
+                if (permission === "granted") setGyroEnabled(true);
             } catch (e) {
-                console.error("Gyroscope permission denied:", e);
+                console.error(e);
             }
         } else {
-            // This covers Android and older browsers where permission isn't required
             setGyroEnabled(true);
         }
     };
@@ -83,9 +93,7 @@ export default function ErrorTemplate({
     useEffect(() => {
         if (!gyroEnabled) return;
         const handleOrientation = (e: DeviceOrientationEvent) => {
-            // Gamma: Left/Right tilt (-90 to 90)
-            // Beta: Front/Back tilt (-180 to 180)
-            const gx = (e.gamma || 0) / 45; // Scale to manageable gravity values
+            const gx = (e.gamma || 0) / 45;
             const gy = (e.beta || 0) / 45;
             gyroGravityRef.current = { x: gx, y: gy };
         };
@@ -94,7 +102,18 @@ export default function ErrorTemplate({
             window.removeEventListener("deviceorientation", handleOrientation);
     }, [gyroEnabled]);
 
-    // --- PHYSICS TICK ---
+    useLayoutEffect(() => {
+        const updateSize = () => {
+            setDimensions({
+                width: window.innerWidth,
+                height: window.innerHeight,
+            });
+        };
+        window.addEventListener("resize", updateSize);
+        updateSize();
+        return () => window.removeEventListener("resize", updateSize);
+    }, []);
+
     useEffect(() => {
         if (!hasGravity) return;
         const tick = () => {
@@ -108,7 +127,6 @@ export default function ErrorTemplate({
             const maxX = window.innerWidth - wW;
             const maxY = window.innerHeight - wH;
 
-            // Apply Gyro Gravity if enabled, otherwise use static gravity
             if (gyroEnabled) {
                 velocityRef.current.x += gyroGravityRef.current.x;
                 velocityRef.current.y += gyroGravityRef.current.y;
@@ -121,33 +139,27 @@ export default function ErrorTemplate({
             positionRef.current.x += velocityRef.current.x;
             positionRef.current.y += velocityRef.current.y;
 
-            let hitWall = false;
-
-            // Collision Detection with Haptics
+            let hit = false;
             if (positionRef.current.y >= maxY) {
                 positionRef.current.y = maxY;
                 velocityRef.current.y *= -bounceRef.current;
-                hitWall = true;
+                hit = true;
             } else if (positionRef.current.y < 0) {
                 positionRef.current.y = 0;
                 velocityRef.current.y *= -bounceRef.current;
-                hitWall = true;
+                hit = true;
             }
-
             if (positionRef.current.x >= maxX) {
                 positionRef.current.x = maxX;
                 velocityRef.current.x *= -bounceRef.current;
-                hitWall = true;
+                hit = true;
             } else if (positionRef.current.x < 0) {
                 positionRef.current.x = 0;
                 velocityRef.current.x *= -bounceRef.current;
-                hitWall = true;
+                hit = true;
             }
 
-            if (hitWall && "vibrate" in navigator) {
-                // Short pulse on wall hit
-                navigator.vibrate(20);
-            }
+            if (hit && "vibrate" in navigator) navigator.vibrate(20);
 
             setOffset({
                 x: maxX > 0 ? positionRef.current.x / maxX : 0.5,
@@ -162,7 +174,6 @@ export default function ErrorTemplate({
         };
     }, [hasGravity, gyroEnabled]);
 
-    // --- UNIFIED INPUT HANDLERS (PC & MOBILE) ---
     const startDrag = (clientX: number, clientY: number) => {
         if (!windowRef.current) return;
         const rect = windowRef.current.getBoundingClientRect();
@@ -209,7 +220,6 @@ export default function ErrorTemplate({
         [grabPoint],
     );
 
-    // --- REACT EVENT WRAPPERS ---
     const onMouseDown = (e: React.MouseEvent) => {
         if (e.button === 0) startDrag(e.clientX, e.clientY);
     };
@@ -221,7 +231,7 @@ export default function ErrorTemplate({
         const mouseMove = (e: MouseEvent) => handleMove(e.clientX, e.clientY);
         const touchMove = (e: TouchEvent) => {
             handleMove(e.touches[0].clientX, e.touches[0].clientY);
-            if (isDraggingRef.current) e.preventDefault(); // Prevent scrolling while dragging
+            if (isDraggingRef.current) e.preventDefault();
         };
         const endDrag = () => {
             if (hasGravity)
@@ -243,17 +253,6 @@ export default function ErrorTemplate({
             window.removeEventListener("touchend", endDrag);
         };
     }, [isDragging, handleMove, hasGravity]);
-
-    useLayoutEffect(() => {
-        const updateSize = () =>
-            setDimensions({
-                width: window.innerWidth,
-                height: window.innerHeight,
-            });
-        window.addEventListener("resize", updateSize);
-        updateSize();
-        return () => window.removeEventListener("resize", updateSize);
-    }, []);
 
     const getPositionStyles = (): React.CSSProperties => {
         if (typeof window === "undefined" || !windowRef.current)
@@ -280,17 +279,19 @@ export default function ErrorTemplate({
             }}
         >
             <style>{`
+                @keyframes light-shake { 0% { transform: translate(0, 0) rotate(0deg); } 25% { transform: translate(1px, 1px) rotate(0.5deg); } 50% { transform: translate(-1px, -1px) rotate(-0.5deg); } 75% { transform: translate(1px, -1px) rotate(0.5deg); } 100% { transform: translate(0, 0) rotate(0deg); } }
+                @keyframes heavy-shake { 0% { transform: translate(0, 0) rotate(0deg); } 10% { transform: translate(-3px, -2px) rotate(-2deg); } 30% { transform: translate(3px, 2px) rotate(2deg); } 50% { transform: translate(-3px, 2px) rotate(-3deg); } 70% { transform: translate(3px, -2px) rotate(3deg); } 90% { transform: translate(-1px, -1px) rotate(-1deg); } 100% { transform: translate(0, 0) rotate(0deg); } }
                 .light-shake { animation: light-shake 0.2s infinite; }
                 .heavy-shake { animation: heavy-shake 0.1s infinite; }
-                @keyframes light-shake { 0%, 100% { transform: translate(0,0); } 25% { transform: translate(1px,1px); } 75% { transform: translate(-1px,-1px); } }
-                @keyframes heavy-shake { 0%, 100% { transform: translate(0,0); } 20% { transform: translate(-3px,2px); } 40% { transform: translate(3px,-2px); } 60% { transform: translate(-3px,-2px); } 80% { transform: translate(3px,2px); } }
+                .bubble-container { position: absolute; top: -50px; right: -10px; z-index: 20; pointer-events: none; }
             `}</style>
 
             <div
                 ref={windowRef}
-                className={`window glass active max-w-md w-full fixed select-none ${!hasGravity && clickCount >= 4 ? "heavy-shake" : !hasGravity && clickCount >= 2 ? "light-shake" : ""}`}
+                className={`window glass active max-w-md w-full fixed select-none ${getShakeIntensity()}`}
                 style={{
                     ...getPositionStyles(),
+                    margin: 0,
                     zIndex: 10,
                     backgroundColor: isAngry
                         ? `rgb(${128 + clickCount * 25}, 0, 0)`
@@ -309,10 +310,13 @@ export default function ErrorTemplate({
                     }}
                 >
                     <div className="title-bar-text">Error: {statusCode}</div>
-                    <div className="title-bar-controls">
+                    <div
+                        className="title-bar-controls"
+                        style={{ position: "relative" }}
+                    >
                         <button
                             aria-label="Close"
-                            onClick={() => {
+                            onClick={() =>
                                 setClickCount((c) => {
                                     const next = c + 1;
                                     if (next >= 6 && !hasGravity) {
@@ -323,14 +327,42 @@ export default function ErrorTemplate({
                                         setHasGravity(true);
                                     }
                                     return next;
-                                });
-                            }}
-                        />
+                                })
+                            }
+                        >
+                            {isAngry && (
+                                <div className="bubble-container">
+                                    <div className="is-top is-right max-w-md w-screen">
+                                        {clickCount === 1
+                                            ? "Hey, that hurt!"
+                                            : clickCount === 2
+                                              ? "Stop it!"
+                                              : clickCount === 3
+                                                ? "I said stop!"
+                                                : clickCount === 4
+                                                  ? "That's it!"
+                                                  : clickCount === 5
+                                                    ? "I'm breaking free!"
+                                                    : "Ouch!"}
+                                    </div>
+                                </div>
+                            )}
+                        </button>
                     </div>
                 </div>
                 <div className="window-body has-space">
                     <h1 className="text-2xl">{message}</h1>
-                    <p className="mt-2 text-sm">{description}</p>
+                    <p className="mt-2 text-sm">
+                        {description}
+                        <br />
+                        Created by Google Gemini -{" "}
+                        <Link
+                            href="https://www.youtube.com/watch?v=5aV0f_q1-Jg"
+                            target="_blank"
+                        >
+                            Yes its genai
+                        </Link>
+                    </p>
                     <div className="flex gap-4 mt-4">{actions}</div>
                 </div>
             </div>
@@ -346,7 +378,7 @@ export default function ErrorTemplate({
                     }}
                 >
                     <div className="title-bar">
-                        <div className="title-bar-text">Gravity Controls</div>
+                        <div className="title-bar-text">Physics Engine</div>
                         <div className="title-bar-controls">
                             <button
                                 onClick={() =>
@@ -359,7 +391,10 @@ export default function ErrorTemplate({
                     </div>
                     {!physicsOptionsMinimized && (
                         <div className="window-body has-space">
-                            <div className="field-row">
+                            <div
+                                className="field-row"
+                                style={{ marginBottom: "10px" }}
+                            >
                                 <input
                                     id="gyro"
                                     type="checkbox"
@@ -369,19 +404,56 @@ export default function ErrorTemplate({
                                         else setGyroEnabled(false);
                                     }}
                                 />
-                                <label htmlFor="gyro">
-                                    Enable Gyro Gravity
+                                <label htmlFor="gyro">Gyroscope Gravity</label>
+                            </div>
+                            <div className="field-row-stacked">
+                                <label>Gravity: {gravity.toFixed(2)}</label>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max="2"
+                                    step="0.0001"
+                                    value={gravity}
+                                    onChange={(e) => {
+                                        const v = parseFloat(e.target.value);
+                                        setGravity(v);
+                                        gravityRef.current = v;
+                                    }}
+                                />
+                                <label>Bounce: {bounce.toFixed(2)}</label>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max="1"
+                                    step="0.0001"
+                                    value={bounce}
+                                    onChange={(e) => {
+                                        const v = parseFloat(e.target.value);
+                                        setBounce(v);
+                                        bounceRef.current = v;
+                                    }}
+                                />
+                                <label>
+                                    Friction: {(friction * 1000).toFixed(0)}%
                                 </label>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max="0.1"
+                                    step="0.0001"
+                                    value={friction}
+                                    onChange={(e) => {
+                                        const v = parseFloat(e.target.value);
+                                        setFriction(v);
+                                        frictionRef.current = v;
+                                    }}
+                                />
                             </div>
                             <button
-                                style={{ width: "100%" }}
-                                onClick={() => {
-                                    setGravity(DEFAULTS.GRAVITY);
-                                    gravityRef.current = DEFAULTS.GRAVITY;
-                                    setGyroEnabled(false);
-                                }}
+                                style={{ width: "100%", marginTop: "10px" }}
+                                onClick={resetPhysics}
                             >
-                                Reset Physics
+                                Reset to Default
                             </button>
                         </div>
                     )}
