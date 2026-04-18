@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" className={`${notoSans.variable} h-full antialiased`}>
-            <body className="min-h-full flex flex-col win7">
+            <body className="min-h-full flex flex-col win7 overflow-hidden">
                 <Image
                     src="/win7wp.jpg"
                     alt="Background"

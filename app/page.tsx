@@ -113,7 +113,7 @@ const links = [
 export default async function Home() {
     return (
         <MainAppBar>
-            <main className="flex flex-col max-w-4xl mx-auto gap-6">
+            <div className="flex flex-col max-w-4xl mx-auto gap-6">
                 {/* Profile Section */}
                 <div className="flex items-center text-left gap-6">
                     <Image src="/icon" alt="Icon" width={256} height={256} />
@@ -181,7 +181,7 @@ export default async function Home() {
                         ))}
                     </div>
                 </span>
-            </main>
+            </div>
         </MainAppBar>
     );
 }

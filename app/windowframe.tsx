@@ -19,7 +19,7 @@ export default async function MainAppBar({
     children: React.ReactNode;
 }) {
     return (
-        <div className="h-[100dvh] max-h-[100dvh] w-screen p-2 m-0 overflow-hidden bg-transparent">
+        <div className="max-h-dvh h-dvh w-screen p-2 m-0 overflow-hidden bg-transparent">
             <div className="window glass active h-full w-full flex flex-col">
                 <div className="title-bar">
                     <div className="title-bar-text flex items-center gap-2">
@@ -33,14 +33,14 @@ export default async function MainAppBar({
                     </div>
                 </div>
 
-                <div className="window-body flex flex-col flex-grow overflow-hidden">
-                    <nav className="flex gap-3 p-2 border-b border-gray-300 hide-on-mobile">
+                <div className="window-body overflow-hidden flex flex-col h-screen">
+                    <nav className="relative top-0 left-0 border-b border-gray-300 flex gap-2 px-4 py-2 bg-(--w7-surface) w-full overflow-x-auto overflow-y-hidden">
                         {navItems.map((item) => (
                             <Link
                                 key={item.label}
                                 href={item.href}
                                 passHref
-                                className="!no-underline !hover:no-underline"
+                                className="no-underline! !hover:no-underline"
                             >
                                 <button className="flex items-center gap-1.5">
                                     {item.icon}
@@ -50,7 +50,7 @@ export default async function MainAppBar({
                         ))}
                     </nav>
 
-                    <main className="flex-none p-5 overflow-y-auto bg-white/80 text-black">
+                    <main className="flex-1 pt-2 overflow-auto text-black has-scrollbar">
                         <Suspense fallback={<Loading />}>{children}</Suspense>
                     </main>
                 </div>
