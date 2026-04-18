@@ -58,21 +58,24 @@ export default function ErrorTemplate({
 
     // --- GYROSCOPE LOGIC ---
     const requestGyro = async () => {
-        // @ts-ignore - Safari specific permission request
+        // We cast to 'any' to prevent TypeScript from complaining about
+        // the non-standard requestPermission method during the build.
+        const DeviceMoveEvent = DeviceOrientationEvent as any;
+
         if (
-            typeof DeviceOrientationEvent !== "undefined" &&
-            typeof DeviceOrientationEvent.requestPermission === "function"
+            typeof DeviceMoveEvent !== "undefined" &&
+            typeof DeviceMoveEvent.requestPermission === "function"
         ) {
             try {
-                // @ts-ignore
-                const permission =
-                    await DeviceOrientationEvent.requestPermission();
-                if (permission === "granted") setGyroEnabled(true);
+                const permission = await DeviceMoveEvent.requestPermission();
+                if (permission === "granted") {
+                    setGyroEnabled(true);
+                }
             } catch (e) {
-                console.error(e);
+                console.error("Gyroscope permission denied:", e);
             }
         } else {
-            // Android or older browsers
+            // This covers Android and older browsers where permission isn't required
             setGyroEnabled(true);
         }
     };
