@@ -10,3 +10,8 @@ button:disabled,
 select:disabled {
     cursor: not-allowed;
 }
+
+* [role="tooltip"],
+* [role="tooltip"]::before {
+    all: revert;
+}

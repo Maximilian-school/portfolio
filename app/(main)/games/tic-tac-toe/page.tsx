@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
+import SignInForm from "@/components/SignInForm";
+import { useRouter } from "next/navigation";
 
 type Player = "X" | "O";
 type Board = (Player | null)[];
@@ -41,7 +43,6 @@ export default function TicTacToe() {
     const [winner, setWinner] = useState<Player | "draw" | null>(null);
     const [loading, setLoading] = useState(false);
 
-    // 🔐 load auth user
     useEffect(() => {
         const loadUser = async () => {
             const { data } = await supabase.auth.getUser();
@@ -50,7 +51,6 @@ export default function TicTacToe() {
         loadUser();
     }, []);
 
-    // 🎧 realtime subscription
     useEffect(() => {
         if (!matchId) return;
 
@@ -82,7 +82,6 @@ export default function TicTacToe() {
         };
     }, [matchId]);
 
-    // 🎮 create match
     const createMatch = async () => {
         if (!userId) return;
 
@@ -107,7 +106,6 @@ export default function TicTacToe() {
         setLoading(false);
     };
 
-    // 🔗 join match
     const joinMatch = async () => {
         if (!userId) return;
 
@@ -138,7 +136,6 @@ export default function TicTacToe() {
         setLoading(false);
     };
 
-    // 🧠 play move
     const play = async (i: number) => {
         if (!matchId || !player || winner) return;
         if (board[i] || player !== turn) return;
@@ -165,7 +162,22 @@ export default function TicTacToe() {
             .eq("id", matchId);
     };
 
-    // 🧊 lobby
+    const router = useRouter();
+
+    if (!userId) {
+        return (
+            <SignInForm
+                open={true}
+                onClose={(wasX) => {
+                    if (wasX) {
+                        router.push("/games");
+                    }
+                }}
+                help="This game requires you to be signed into an account!"
+            />
+        );
+    }
+
     if (!matchId) {
         return (
             <div className="p-6 space-y-3">
@@ -187,7 +199,6 @@ export default function TicTacToe() {
         );
     }
 
-    // 🎯 game screen
     return (
         <div className="p-6 space-y-3">
             <div className="text-sm opacity-70">

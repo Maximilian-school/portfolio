@@ -1,10 +1,9 @@
 "use client";
 
 import Explorer from "@/components/Explorer";
-import { createClient } from "@/utils/supabase/client";
-import { Provider } from "@supabase/supabase-js";
+import SignInForm from "@/components/SignInForm";
 import Link from "next/link";
-import { SiDiscord, SiGithub, SiSpotify } from "react-icons/si";
+import { useState } from "react";
 
 const GAMES_DATA = [
     {
@@ -16,57 +15,25 @@ const GAMES_DATA = [
         category: "Social",
         releaseDate: "2026-04-18",
     },
+    {
+        id: "tic-tac-toe",
+        title: "Tic Tac Toe",
+        description: "Tic Tac Toe against real live players!",
+        link: "/games/tic-tac-toe",
+        category: "Strategy",
+        releaseDate: "2026-04-18",
+    },
 ];
 
 export default function Games() {
-    const supabase = createClient();
-
-    const handleSignIn = async (provider: Provider) => {
-        const { error } = await supabase.auth.signInWithOAuth({
-            provider,
-            options: {
-                redirectTo: `${window.location.origin}/auth/callback`,
-            },
-        });
-
-        if (error) {
-            console.error(`Error signing in with ${provider}:`, error.message);
-        }
-    };
+    const [signInFormOpen, setSignInFormOpen] = useState(false);
 
     return (
         <>
-            <div className="flex flex-col max-w-4xl mx-auto gap-6">
-                <h1 className="text-2xl font-semibold">
-                    Please sign in to play <strong>some</strong> games!
-                </h1>
-                <label className="-mb-5 -mt-4">
-                    Please choose one of the providers:
-                </label>
-                <span className="flex gap-4 mb-1 flex-wrap">
-                    <button
-                        onClick={() => handleSignIn("discord")}
-                        className="flex items-center gap-2 w-fit py-2!"
-                    >
-                        <SiDiscord size={24} color="#7289da" /> Continue with
-                        Discord
-                    </button>
-                    <button
-                        onClick={() => handleSignIn("github")}
-                        className="flex items-center gap-2 w-fit py-2!"
-                    >
-                        <SiGithub size={24} color="#000" /> Continue with Github
-                    </button>
-                    <button
-                        onClick={() => handleSignIn("spotify")}
-                        className="flex items-center gap-2 w-fit py-2!"
-                    >
-                        <SiSpotify size={24} color="#1db954" /> Continue with
-                        Spotify
-                    </button>
-                </span>
-            </div>
-            <br />
+            <SignInForm
+                open={signInFormOpen}
+                onClose={() => setSignInFormOpen(false)}
+            />
             <Explorer
                 explorerName="Browse Games"
                 initialData={GAMES_DATA}

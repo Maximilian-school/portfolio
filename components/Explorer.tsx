@@ -160,7 +160,7 @@ export default function Explorer({
                 </div>
             )}
 
-            <div className="status-bar">
+            <div className="status-bar w-full">
                 <p className="status-bar-field">Items: {displayData.length}</p>
                 <p className="status-bar-field">
                     State: {loading ? "Busy" : "Ready"}
