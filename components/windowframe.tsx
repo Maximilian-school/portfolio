@@ -9,17 +9,18 @@ import { SnackbarProvider } from "notistack";
 import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import {
     LuGamepad,
+    LuGitBranch,
     LuHouse,
-    LuPersonStanding,
     LuScroll,
     LuShield,
     LuSquareMenu,
 } from "react-icons/lu";
-import { MdAccountCircle } from "react-icons/md";
 
 export default function MainAppBar({
+    gitSha = "dev",
     children,
 }: {
+    gitSha?: string | null;
     children: React.ReactNode;
 }) {
     const windowRef = useRef<HTMLDivElement | null>(null);
@@ -151,6 +152,10 @@ export default function MainAppBar({
                                         : navItems.find((n) => n.href === href)
                                               ?.label || segment;
 
+                                if (label === "tos+ps") {
+                                    label = "TOS and Privacy policy";
+                                }
+
                                 return (
                                     <React.Fragment key={href}>
                                         <p className="text-black/70!">/</p>
@@ -181,6 +186,16 @@ export default function MainAppBar({
                         </main>
                     </SnackbarProvider>
                 </div>
+
+                <footer className="text-center flex justify-center gap-1">
+                    <Link href={"/tos+ps"}>TOS and Privacy policy</Link>&ndash;
+                    <p>{new Date().getFullYear()} MIT Licence Maximilian</p>
+                    &ndash;
+                    <p className="flex items-center gap-1">
+                        <LuGitBranch />
+                        {gitSha}
+                    </p>
+                </footer>
             </div>
         </div>
     );

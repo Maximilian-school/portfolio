@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     description: "My portfolio website built on Next and MUI",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
     params,
 }: Readonly<{
