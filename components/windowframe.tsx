@@ -5,8 +5,17 @@ import { useUserClient } from "@/hooks/use-user-client";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { SnackbarProvider } from "notistack";
 import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { LuGamepad, LuHouse, LuScroll, LuSquareMenu } from "react-icons/lu";
+import {
+    LuGamepad,
+    LuHouse,
+    LuPersonStanding,
+    LuScroll,
+    LuShield,
+    LuSquareMenu,
+} from "react-icons/lu";
+import { MdAccountCircle } from "react-icons/md";
 
 export default function MainAppBar({
     children,
@@ -43,6 +52,14 @@ export default function MainAppBar({
         ];
 
         if (!loadingUser && profile?.id) {
+            if (profile.id === "db8fb2a7-1709-4d17-aadd-cd65fa8ee72d") {
+                items.push({
+                    label: `Admin`,
+                    icon: <LuShield />,
+                    href: "/admin",
+                });
+            }
+
             items.push({
                 label: `Account - ${profile.username}`,
                 icon: (
@@ -156,9 +173,13 @@ export default function MainAppBar({
                         </div>
                     </nav>
 
-                    <main className="flex-1 overflow-auto text-black has-scrollbar p-2">
-                        <Suspense fallback={<Loading />}>{children}</Suspense>
-                    </main>
+                    <SnackbarProvider>
+                        <main className="flex-1 overflow-auto text-black has-scrollbar p-2">
+                            <Suspense fallback={<Loading />}>
+                                {children}
+                            </Suspense>
+                        </main>
+                    </SnackbarProvider>
                 </div>
             </div>
         </div>

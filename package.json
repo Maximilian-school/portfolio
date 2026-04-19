@@ -23,6 +23,7 @@
     "katex": "^0.16.45",
     "next": "16.2.4",
     "next-mdx-remote": "^6.0.0",
+    "notistack": "^3.0.2",
     "npm": "^11.12.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
