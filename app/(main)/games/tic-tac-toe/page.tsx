@@ -41,6 +41,11 @@ function checkWinner(board: Board): Player | "draw" | null {
     return null;
 }
 
+const profileCache = new Map<
+    string,
+    { username: string; avatar_url: string }
+>();
+
 export default function TicTacToe() {
     const supabase = createClient();
     const router = useRouter();
@@ -367,6 +372,13 @@ export default function TicTacToe() {
                 return;
             }
 
+            if (profileCache.has(id)) {
+                const cached = profileCache.get(id)!;
+                setUsername(cached.username);
+                setPfp(cached.avatar_url);
+                return;
+            }
+
             const fetchProfile = async () => {
                 const { data, error } = await supabase
                     .from("profiles")
@@ -375,6 +387,7 @@ export default function TicTacToe() {
                     .single();
 
                 if (!error && data) {
+                    profileCache.set(id, data); // 💾 store it
                     setUsername(data.username);
                     setPfp(data.avatar_url);
                 } else {
