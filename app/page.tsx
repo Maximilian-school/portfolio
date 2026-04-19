@@ -127,8 +127,6 @@ export default async function Home() {
                         {languages.map((lang, index) => (
                             <div
                                 key={index}
-                                /* text-2xl on mobile, text-4xl on desktop for devicons */
-                                /* [&>svg]: size control for lucide icons if any */
                                 className="text-2xl sm:text-4xl flex items-center gap-2 sm:gap-4 w-fit [&>svg]:w-6 [&>svg]:h-6 sm:[&>svg]:w-10 sm:[&>svg]:h-10"
                             >
                                 {lang.icon}{" "}
