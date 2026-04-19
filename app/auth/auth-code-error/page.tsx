@@ -1,3 +1,5 @@
+"use client";
+
 import ErrorTemplate from "@/components/error-template";
 
 export default function AuthCodeError() {
