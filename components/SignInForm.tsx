@@ -5,6 +5,7 @@ import { createClient } from "@/utils/supabase/client";
 import { Modal, Tooltip } from "@mui/material";
 import { Provider } from "@supabase/supabase-js";
 import { SiDiscord, SiGithub, SiRoblox, SiSpotify } from "react-icons/si";
+import Link from "next/link";
 
 export const providers: {
     id: Provider;
@@ -125,7 +126,13 @@ export default function SignInForm({
 
                 <div className="window-body has-space h-full flex items-center justify-center">
                     <div className="w-full mx-8 flex flex-col gap-3">
-                        <h1 className="text-2xl font-semibold">Sign-in</h1>
+                        <h1 className="text-2xl font-semibold">
+                            {loading
+                                ? "Loading..."
+                                : isSignup
+                                  ? "Sign up"
+                                  : "Sign in"}
+                        </h1>
 
                         <div className="flex flex-col gap-2">
                             <input
@@ -185,6 +192,13 @@ export default function SignInForm({
                                 </button>
                             ))}
                         </div>
+
+                        <p>
+                            By continuing, you agree to our{" "}
+                            <Link href={"/tos+ps"}>
+                                Terms of Service and Privacy Policy.
+                            </Link>
+                        </p>
                     </div>
                 </div>
             </div>
