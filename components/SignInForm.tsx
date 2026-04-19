@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { Modal, Tooltip } from "@mui/material";
 import { Provider } from "@supabase/supabase-js";
@@ -40,6 +41,11 @@ export default function SignInForm({
 }) {
     const supabase = createClient();
 
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [isSignup, setIsSignup] = useState(false);
+    const [loading, setLoading] = useState(false);
+
     const handleSignIn = async (provider: Provider) => {
         const { error } = await supabase.auth.signInWithOAuth({
             provider,
@@ -53,6 +59,32 @@ export default function SignInForm({
         }
     };
 
+    const handleEmailAuth = async () => {
+        setLoading(true);
+
+        try {
+            if (isSignup) {
+                const { error } = await supabase.auth.signUp({
+                    email,
+                    password,
+                });
+
+                if (error) throw error;
+            } else {
+                const { error } = await supabase.auth.signInWithPassword({
+                    email,
+                    password,
+                });
+
+                if (error) throw error;
+            }
+        } catch (err: any) {
+            console.error("Auth error:", err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <Modal
             open={open}
@@ -61,7 +93,7 @@ export default function SignInForm({
             }}
             className="flex"
         >
-            <div className="window active mx-auto w-lg aspect-video my-auto z-30">
+            <div className="window active mx-auto w-lg aspect-square my-auto z-30">
                 <div className="title-bar">
                     <div className="title-bar-text">Sign-in</div>
                     <div className="title-bar-controls">
@@ -83,7 +115,47 @@ export default function SignInForm({
                     <div className="w-full mx-8 flex flex-col gap-3">
                         <h1 className="text-2xl font-semibold">Sign-in</h1>
 
-                        <label>Pick a provider and get rolling:</label>
+                        <div className="flex flex-col gap-2">
+                            <input
+                                type="email"
+                                placeholder="Email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="w-full px-2! py-1!"
+                            />
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="w-full px-2! py-1!"
+                            />
+
+                            <button
+                                onClick={handleEmailAuth}
+                                disabled={loading}
+                                className="w-full! py-2!"
+                            >
+                                {loading
+                                    ? "Loading..."
+                                    : isSignup
+                                      ? "Sign up"
+                                      : "Sign in"}
+                            </button>
+
+                            <button
+                                onClick={() => setIsSignup(!isSignup)}
+                                className="text-xs underline"
+                            >
+                                {isSignup
+                                    ? "Already have an account? Sign in"
+                                    : "No account? Sign up"}
+                            </button>
+                        </div>
+
+                        <div className="border-t my-2"></div>
+
+                        <label>Or use a provider:</label>
 
                         <div className="flex flex-wrap gap-2 justify-center w-full">
                             {providers.map((p) => (
