@@ -55,6 +55,7 @@ const frameworksAndEngines = [
     { name: "PostgreSQL", icon: <SiPostgresql /> },
     { name: "Tailwind CSS", icon: <SiTailwindcss /> },
     { name: "Vercel", icon: <SiVercel /> },
+    { name: "Roblox Studio", icon: <SiRobloxstudio /> },
 ];
 
 const links = [
@@ -84,9 +85,6 @@ export default async function Home() {
     return (
         <MainAppBar>
             <div className="flex flex-col max-w-4xl mx-auto gap-6 px-4">
-                {" "}
-                {/* Added horizontal padding for mobile */}
-                {/* Profile Section */}
                 <div className="flex items-center text-left gap-6">
                     <Image
                         src="/icon"
@@ -104,6 +102,7 @@ export default async function Home() {
                         </h2>
                     </span>
                 </div>
+
                 <span className="flex flex-col gap-4">
                     <h1 className="sm:text-4xl text-2xl font-semibold sm:font-bold mb-2 sm:mb-4">
                         Biography
@@ -122,7 +121,7 @@ export default async function Home() {
                     <h2 className="sm:text-2xl text-xl font-semibold">
                         Languages
                     </h2>
-                    {/* Removed max-h-32 to allow proper wrapping on small screens */}
+
                     <div className="flex flex-wrap gap-x-8 gap-y-4 justify-start items-center w-full">
                         {languages.map((lang, index) => (
                             <div

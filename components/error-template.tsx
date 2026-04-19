@@ -359,7 +359,6 @@ export default function ErrorTemplate({
                                 </p>
                             </>
                         )}
-                        <div className="flex gap-4 mt-4">{actions}</div>
                     </div>
                 ) : (
                     <div className="window-body has-space">
@@ -367,9 +366,11 @@ export default function ErrorTemplate({
                             Critical error occurred when trying to compute next
                             anger message!
                         </h1>
-                        <div className="flex gap-4 mt-4">{actions}</div>
                     </div>
                 )}
+                <footer>
+                    <div className="flex gap-4">{actions}</div>
+                </footer>
             </div>
             {hasGravity && (
                 <div
@@ -429,8 +430,8 @@ export default function ErrorTemplate({
                                 <input
                                     type="range"
                                     min="0"
-                                    max="1.1"
-                                    step="0.0001"
+                                    max="1"
+                                    step="0.01"
                                     value={bounce}
                                     onChange={(e) => {
                                         const v = parseFloat(e.target.value);
@@ -445,7 +446,7 @@ export default function ErrorTemplate({
                                     type="range"
                                     min="0"
                                     max="0.1"
-                                    step="0.0001"
+                                    step="0.001"
                                     value={friction}
                                     onChange={(e) => {
                                         const v = parseFloat(e.target.value);

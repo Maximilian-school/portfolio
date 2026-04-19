@@ -1,8 +1,8 @@
-import "7.css";
 import type { Metadata } from "next";
 import { Noto_Sans } from "next/font/google";
 import Image from "next/image";
 import "./globals.css";
+import "7.css";
 
 const notoSans = Noto_Sans({
     variable: "--font-noto-sans",
