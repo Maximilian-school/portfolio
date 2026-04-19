@@ -7,6 +7,83 @@ import "katex/dist/katex.min.css";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import { BreadcrumbEmitter } from "@/components/BreadcrumbEmitter";
+import { Metadata } from "next";
+
+function extractImages(content: string): string[] {
+    const images = new Set<string>();
+
+    const mdMatches = content.matchAll(/!\[.*?\]\((.*?)\)/g);
+    for (const match of mdMatches) {
+        if (match[1]) images.add(match[1]);
+    }
+
+    const htmlMatches = content.matchAll(/<img[^>]+src=["'](.*?)["']/g);
+    for (const match of htmlMatches) {
+        if (match[1]) images.add(match[1]);
+    }
+
+    return Array.from(images);
+}
+
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+    const { slug } = await params;
+
+    let data: Blog | null = null;
+
+    if (slug === "test") {
+        data = {
+            title: "Test Blog Post",
+            content: `![Test Image](https://placehold.co/600x400)`,
+            created_at: new Date().toISOString(),
+            slug: "test",
+        } as Blog;
+    } else {
+        const supabase = await createClient(await cookies());
+        const { data: dbData } = await supabase
+            .from("blog")
+            .select("*")
+            .eq("slug", slug)
+            .single();
+
+        data = dbData;
+    }
+
+    const content = data?.content || "";
+    const images = extractImages(content);
+
+    const title = data?.title || "Untitled";
+    const description =
+        content.slice(0, 160).replace(/[#_*`>\n]/g, "") ||
+        "No description available.";
+
+    return {
+        title,
+        description,
+        openGraph: {
+            title,
+            description,
+            url: `https://latific.click/blog/${slug}`,
+            siteName: "Maximilians amazing site - blog",
+            images: images.map((url) => ({
+                url,
+                width: 1200,
+                height: 630,
+            })),
+            locale: "en_US",
+            type: "article",
+        },
+        twitter: {
+            card: images.length ? "summary_large_image" : "summary",
+            title,
+            description,
+            images,
+        },
+    };
+}
 
 export default async function BlogPage({
     params,

@@ -1,18 +1,12 @@
 "use client";
 
 import Loading from "@/app/(main)/blog/[slug]/loading";
-import { Gamepad, HomeIcon, MenuSquare, ScrollIcon } from "lucide-react";
+import { useUserClient } from "@/hooks/use-user-client";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { Suspense, useEffect, useRef, useState } from "react";
-
-const navItems = [
-    { label: "Home", icon: <HomeIcon size={16} />, href: "/" },
-    { label: "Blog", icon: <ScrollIcon size={16} />, href: "/blog" },
-    { label: "Projects", icon: <MenuSquare size={16} />, href: "/projects" },
-    { label: "Games", icon: <Gamepad size={16} />, href: "/games" },
-];
+import { LuGamepad, LuHouse, LuScroll, LuSquareMenu } from "react-icons/lu";
 
 export default function MainAppBar({
     children,
@@ -22,6 +16,7 @@ export default function MainAppBar({
     const windowRef = useRef<HTMLDivElement | null>(null);
     const pathname = usePathname();
     const [dynamicTitle, setDynamicTitle] = useState("");
+    const { user, profile, loading: loadingUser } = useUserClient();
 
     useEffect(() => {
         const handleEvent = (e: any) => setDynamicTitle(e.detail);
@@ -34,6 +29,34 @@ export default function MainAppBar({
     }, [pathname]);
 
     const pathSegments = pathname.split("/").filter(Boolean);
+
+    let navItems = [
+        { label: "Home", icon: <LuHouse size={16} />, href: "/" },
+        { label: "Blog", icon: <LuScroll size={16} />, href: "/blog" },
+        {
+            label: "Projects",
+            icon: <LuSquareMenu size={16} />,
+            href: "/projects",
+        },
+        { label: "Games", icon: <LuGamepad size={16} />, href: "/games" },
+    ];
+
+    if (profile?.id && !loadingUser) {
+        navItems.push({
+            label: `Account${" - " + profile.username}`,
+            icon: (
+                <Image
+                    height={16}
+                    width={16}
+                    src={profile.avatar_url ?? ""}
+                    alt="Profile picture"
+                    unoptimized
+                    className="rounded-full"
+                />
+            ),
+            href: "/account",
+        });
+    }
 
     return (
         <div className="max-h-dvh h-dvh w-screen sm:p-2 m-0 overflow-hidden bg-transparent">

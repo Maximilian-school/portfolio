@@ -1,9 +1,8 @@
-import "7.css";
-import "devicon/devicon.min.css";
 import type { Metadata } from "next";
 import { Noto_Sans } from "next/font/google";
 import Image from "next/image";
 import "./globals.css";
+import "7.css";
 
 const notoSans = Noto_Sans({
     variable: "--font-noto-sans",
@@ -17,8 +16,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
     children,
+    params,
 }: Readonly<{
     children: React.ReactNode;
+    params: {};
 }>) {
     return (
         <html lang="en" className={`${notoSans.variable} h-full antialiased`}>
@@ -30,6 +31,7 @@ export default function RootLayout({
                     className="fixed top-0 left-0 object-cover -z-10 select-none"
                     draggable={false}
                 />
+
                 {children}
             </body>
         </html>

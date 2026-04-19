@@ -1,111 +1,82 @@
 import MainAppBar from "@/components/windowframe";
-import {
-    CuboidIcon,
-    GitBranch,
-    Pickaxe,
-    VideoIcon,
-    WrenchIcon,
-} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import {
+    SiJavascript,
+    SiLua,
+    SiGodotengine,
+    SiSharp,
+    SiHtml5,
+    SiReact,
+    SiUnity,
+    SiNextdotjs,
+    SiSupabase,
+    SiFirebase,
+    SiPostgresql,
+    SiTailwindcss,
+    SiVercel,
+    SiTypescript,
+    SiCss,
+    SiRobloxstudio,
+    SiModrinth,
+    SiGithub,
+    SiYoutube,
+} from "react-icons/si";
+
+import {
+    LuYoutube,
+    LuGithub,
+    LuWrench,
+    LuBox,
+    LuPickaxe,
+} from "react-icons/lu";
+import { DiJava } from "react-icons/di";
+
 const languages = [
-    {
-        name: "TypeScript",
-        icon: <i className="devicon-typescript-plain colored" />,
-    },
-    {
-        name: "JavaScript",
-        icon: <i className="devicon-javascript-plain colored" />,
-    },
-    {
-        name: "Lua/Luau",
-        icon: <i className="devicon-lua-plain colored" />,
-    },
-    {
-        name: "GDScript",
-        icon: <i className="devicon-godot-plain colored" />,
-    },
-    {
-        name: "Java",
-        icon: <i className="devicon-java-plain colored" />,
-    },
-    {
-        name: "C#",
-        icon: <i className="devicon-csharp-plain colored" />,
-    },
-    {
-        name: "HTML",
-        icon: <i className="devicon-html5-plain colored" />,
-    },
-    {
-        name: "CSS",
-        icon: <i className="devicon-css3-plain colored" />,
-    },
+    { name: "TypeScript", icon: <SiTypescript /> },
+    { name: "JavaScript", icon: <SiJavascript /> },
+    { name: "Lua/Luau", icon: <SiLua /> },
+    { name: "GDScript", icon: <SiGodotengine /> },
+    { name: "Java", icon: <DiJava /> },
+    { name: "C#", icon: <SiSharp /> },
+    { name: "HTML", icon: <SiHtml5 /> },
+    { name: "CSS", icon: <SiCss /> },
 ];
 
 const frameworksAndEngines = [
-    {
-        name: "React",
-        icon: <i className="devicon-react-plain colored" />,
-    },
-    {
-        name: "Unity",
-        icon: <i className="devicon-unity-plain colored" />,
-    },
-    {
-        name: "Godot",
-        icon: <i className="devicon-godot-plain colored" />,
-    },
-    {
-        name: "Next.js",
-        icon: <i className="devicon-nextjs-plain colored" />,
-    },
-    {
-        name: "Minecraft Modding",
-        icon: <Pickaxe />,
-    },
-    {
-        name: "Supabase",
-        icon: <i className="devicon-supabase-plain colored" />,
-    },
-    {
-        name: "Firebase",
-        icon: <i className="devicon-firebase-plain colored" />,
-    },
-    {
-        name: "PostgreSQL",
-        icon: <i className="devicon-postgresql-plain colored" />,
-    },
-    {
-        name: "Tailwind CSS",
-        icon: <i className="devicon-tailwindcss-plain colored" />,
-    },
-    {
-        name: "Vercel",
-        icon: <i className="devicon-vercel-plain colored" />,
-    },
+    { name: "React", icon: <SiReact /> },
+    { name: "Unity", icon: <SiUnity /> },
+    { name: "Godot", icon: <SiGodotengine /> },
+    { name: "Next.js", icon: <SiNextdotjs /> },
+    { name: "Minecraft Modding", icon: <LuPickaxe /> },
+    { name: "Supabase", icon: <SiSupabase /> },
+    { name: "Firebase", icon: <SiFirebase /> },
+    { name: "PostgreSQL", icon: <SiPostgresql /> },
+    { name: "Tailwind CSS", icon: <SiTailwindcss /> },
+    { name: "Vercel", icon: <SiVercel /> },
+    { name: "Roblox Studio", icon: <SiRobloxstudio /> },
 ];
 
 const links = [
     {
         name: "Youtube",
-        icon: <VideoIcon />,
+        icon: <SiYoutube />,
         href: "https://www.youtube.com/@maximilian11121",
     },
     {
         name: "Github",
-        icon: <GitBranch />,
+        icon: <SiGithub />,
         href: "https://www.github.com/maximilian1121",
     },
     {
         name: "Modrinth",
-        icon: <WrenchIcon />,
+        icon: <SiModrinth />,
         href: "https://modrinth.com/user/Max111",
     },
     {
         name: "Roblox dev group",
-        icon: <CuboidIcon />,
+        icon: <SiRobloxstudio />,
         href: "https://www.roblox.com/communities/33088361/Maximilians-dungeon",
     },
 ];
@@ -114,9 +85,6 @@ export default async function Home() {
     return (
         <MainAppBar>
             <div className="flex flex-col max-w-4xl mx-auto gap-6 px-4">
-                {" "}
-                {/* Added horizontal padding for mobile */}
-                {/* Profile Section */}
                 <div className="flex items-center text-left gap-6">
                     <Image
                         src="/icon"
@@ -134,6 +102,7 @@ export default async function Home() {
                         </h2>
                     </span>
                 </div>
+
                 <span className="flex flex-col gap-4">
                     <h1 className="sm:text-4xl text-2xl font-semibold sm:font-bold mb-2 sm:mb-4">
                         Biography
@@ -152,13 +121,11 @@ export default async function Home() {
                     <h2 className="sm:text-2xl text-xl font-semibold">
                         Languages
                     </h2>
-                    {/* Removed max-h-32 to allow proper wrapping on small screens */}
+
                     <div className="flex flex-wrap gap-x-8 gap-y-4 justify-start items-center w-full">
                         {languages.map((lang, index) => (
                             <div
                                 key={index}
-                                /* text-2xl on mobile, text-4xl on desktop for devicons */
-                                /* [&>svg]: size control for lucide icons if any */
                                 className="text-2xl sm:text-4xl flex items-center gap-2 sm:gap-4 w-fit [&>svg]:w-6 [&>svg]:h-6 sm:[&>svg]:w-10 sm:[&>svg]:h-10"
                             >
                                 {lang.icon}{" "}
