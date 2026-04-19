@@ -70,7 +70,7 @@ export default function Games() {
                             <Link
                                 role="button"
                                 href={game.link}
-                                className="py-1 text-black no-underline"
+                                className="py-2! px-8! text-black no-underline"
                             >
                                 Play
                             </Link>

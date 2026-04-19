@@ -138,7 +138,7 @@ export default function BlogExplorer({
                         <Link
                             href={`/blog/${blog.slug}`}
                             role="button"
-                            className="min-w-15 text-black no-underline"
+                            className="py-2! px-8! text-black no-underline"
                         >
                             Open
                         </Link>

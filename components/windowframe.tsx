@@ -5,7 +5,7 @@ import { useUserClient } from "@/hooks/use-user-client";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { LuGamepad, LuHouse, LuScroll, LuSquareMenu } from "react-icons/lu";
 
 export default function MainAppBar({
@@ -30,33 +30,37 @@ export default function MainAppBar({
 
     const pathSegments = pathname.split("/").filter(Boolean);
 
-    let navItems = [
-        { label: "Home", icon: <LuHouse size={16} />, href: "/" },
-        { label: "Blog", icon: <LuScroll size={16} />, href: "/blog" },
-        {
-            label: "Projects",
-            icon: <LuSquareMenu size={16} />,
-            href: "/projects",
-        },
-        { label: "Games", icon: <LuGamepad size={16} />, href: "/games" },
-    ];
+    const navItems = useMemo(() => {
+        const items = [
+            { label: "Home", icon: <LuHouse size={16} />, href: "/" },
+            { label: "Blog", icon: <LuScroll size={16} />, href: "/blog" },
+            {
+                label: "Projects",
+                icon: <LuSquareMenu size={16} />,
+                href: "/projects",
+            },
+            { label: "Games", icon: <LuGamepad size={16} />, href: "/games" },
+        ];
 
-    if (profile?.id && !loadingUser) {
-        navItems.push({
-            label: `Account${" - " + profile.username}`,
-            icon: (
-                <Image
-                    height={16}
-                    width={16}
-                    src={profile.avatar_url ?? ""}
-                    alt="Profile picture"
-                    unoptimized
-                    className="rounded-full"
-                />
-            ),
-            href: "/account",
-        });
-    }
+        if (!loadingUser && profile?.id) {
+            items.push({
+                label: `Account - ${profile.username}`,
+                icon: (
+                    <Image
+                        height={16}
+                        width={16}
+                        src={profile.avatar_url ?? "/default-avatar.png"}
+                        alt="Profile picture"
+                        unoptimized
+                        className="rounded-full"
+                    />
+                ),
+                href: "/account",
+            });
+        }
+
+        return items;
+    }, [profile, loadingUser]);
 
     return (
         <div className="max-h-dvh h-dvh w-screen sm:p-2 m-0 overflow-hidden bg-transparent">
