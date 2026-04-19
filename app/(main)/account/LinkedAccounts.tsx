@@ -33,28 +33,43 @@ export default function LinkedAccounts({
             </div>
             <div className="window-body has-space flex flex-col gap-2">
                 <p className="text-xs text-gray-600 mb-1">
-                    Link multiple sign-in methods so you never get locked out. You need at least 1 linked at all times.
+                    Link multiple sign-in methods so you never get locked out.
+                    You need at least 1 linked at all times.
                 </p>
                 <div className="flex flex-wrap gap-2">
                     {providers.map((p) => {
                         const linked = isLinked(p.id);
                         const identity = getIdentity(p.id);
-                        const isProcessing = linkingProvider === p.id || unlinkingProvider === p.id;
+                        const isProcessing =
+                            linkingProvider === p.id ||
+                            unlinkingProvider === p.id;
 
                         return (
                             <button
                                 key={p.id}
                                 onClick={() =>
-                                    linked && identity ? onConfirmUnlink(identity) : onLink(p.id as Provider)
+                                    linked && identity
+                                        ? onConfirmUnlink(identity)
+                                        : onLink(p.id as Provider)
                                 }
                                 disabled={isProcessing}
                                 className={`flex items-center gap-2 py-2! px-3! transition-all ${
-                                    p.fullWidth ? "w-full!" : "w-[calc(50%-0.25rem)]!"
+                                    p.fullWidth
+                                        ? "w-full!"
+                                        : "w-[calc(50%-0.25rem)]!"
                                 } ${linked ? "opacity-80" : ""}`}
-                                title={linked ? `Unlink ${p.label}` : `Link ${p.label}`}
+                                title={
+                                    linked
+                                        ? `Unlink ${p.label}`
+                                        : `Link ${p.label}`
+                                }
                             >
                                 {isProcessing ? (
-                                    <CircularProgress size={14} thickness={5} />
+                                    <CircularProgress
+                                        size={14}
+                                        thickness={5}
+                                        role="span"
+                                    />
                                 ) : linked ? (
                                     <LuUnlink size={14} />
                                 ) : (
@@ -71,7 +86,9 @@ export default function LinkedAccounts({
                                           : `Link ${p.label}`}
                                 </span>
                                 {linked && (
-                                    <span className="text-green-700 text-xs font-semibold ml-auto">Linked</span>
+                                    <span className="text-green-700 text-xs font-semibold ml-auto">
+                                        Linked
+                                    </span>
                                 )}
                             </button>
                         );

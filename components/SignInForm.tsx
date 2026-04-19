@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { Modal, Tooltip } from "@mui/material";
 import { Provider } from "@supabase/supabase-js";
-import { SiDiscord, SiGithub, SiRoblox, SiSpotify } from "react-icons/si";
 import Link from "next/link";
+import { useState } from "react";
+import { BsGoogle } from "react-icons/bs";
+import { SiDiscord, SiGithub, SiRoblox, SiSpotify } from "react-icons/si";
 
 export const providers: {
     id: Provider;
@@ -40,6 +41,12 @@ export const providers: {
             />
         ),
         fullWidth: false,
+    },
+    {
+        id: "google",
+        label: "Google",
+        icon: <BsGoogle size={22} color="#4285F4" />,
+        fullWidth: true,
     },
 ];
 
