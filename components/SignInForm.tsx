@@ -4,9 +4,9 @@ import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { Modal, Tooltip } from "@mui/material";
 import { Provider } from "@supabase/supabase-js";
-import { SiDiscord, SiGithub, SiSpotify } from "react-icons/si";
+import { SiDiscord, SiGithub, SiRoblox, SiSpotify } from "react-icons/si";
 
-const providers: {
+export const providers: {
     id: Provider;
     label: string;
     icon: React.ReactNode;
@@ -14,19 +14,31 @@ const providers: {
 }[] = [
     {
         id: "discord",
-        label: "Continue with Discord",
+        label: "Discord",
         icon: <SiDiscord size={22} color="#7289da" />,
     },
     {
         id: "github",
-        label: "Continue with GitHub",
+        label: "GitHub",
         icon: <SiGithub size={22} color="#000" />,
     },
     {
         id: "spotify",
-        label: "Continue with Spotify",
+        label: "Spotify",
         icon: <SiSpotify size={22} color="#1db954" />,
-        fullWidth: true,
+        fullWidth: false,
+    },
+    {
+        id: "custom:roblox",
+        label: "Roblox",
+        icon: (
+            <SiRoblox
+                size={22}
+                color="#fff"
+                className="bg-[#2f5fff] p-0.5 rounded-sm"
+            />
+        ),
+        fullWidth: false,
     },
 ];
 
@@ -169,7 +181,7 @@ export default function SignInForm({
                                     }`}
                                 >
                                     {p.icon}
-                                    {p.label}
+                                    Continue with {p.label}
                                 </button>
                             ))}
                         </div>
