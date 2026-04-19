@@ -5,7 +5,7 @@ import SignInForm from "@/components/SignInForm";
 import Link from "next/link";
 import { useState } from "react";
 
-const GAMES_DATA = [
+export const GAMES_DATA = [
     {
         id: "the-switch",
         title: "The Switch",
