@@ -9,7 +9,7 @@ import { SnackbarProvider } from "notistack";
 import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import {
     LuGamepad,
-    LuGitBranch,
+    LuGitCommitHorizontal,
     LuHouse,
     LuScroll,
     LuShield,
@@ -191,10 +191,18 @@ export default function MainAppBar({
                     <Link href={"/tos+ps"}>TOS and Privacy policy</Link>&ndash;
                     <p>{new Date().getFullYear()} MIT Licence Maximilian</p>
                     &ndash;
-                    <p className="flex items-center gap-1">
-                        <LuGitBranch />
-                        {gitSha}
-                    </p>
+                    <Link
+                        href={
+                            gitSha !== "dev"
+                                ? "https://github.com/maximilian1121/portfolio/commit/" +
+                                  gitSha
+                                : "#"
+                        }
+                        className="flex items-center gap-1"
+                    >
+                        <LuGitCommitHorizontal />
+                        {gitSha?.slice(0, 8)}
+                    </Link>
                 </footer>
             </div>
         </div>
