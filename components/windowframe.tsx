@@ -1,17 +1,17 @@
 "use client";
 
 import Loading from "@/app/(main)/blog/[slug]/loading";
-import { Gamepad, HomeIcon, MenuSquare, ScrollIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { Suspense, useEffect, useRef, useState } from "react";
+import { LuGamepad, LuHouse, LuScroll, LuSquareMenu } from "react-icons/lu";
 
 const navItems = [
-    { label: "Home", icon: <HomeIcon size={16} />, href: "/" },
-    { label: "Blog", icon: <ScrollIcon size={16} />, href: "/blog" },
-    { label: "Projects", icon: <MenuSquare size={16} />, href: "/projects" },
-    { label: "Games", icon: <Gamepad size={16} />, href: "/games" },
+    { label: "Home", icon: <LuHouse size={16} />, href: "/" },
+    { label: "Blog", icon: <LuScroll size={16} />, href: "/blog" },
+    { label: "Projects", icon: <LuSquareMenu size={16} />, href: "/projects" },
+    { label: "Games", icon: <LuGamepad size={16} />, href: "/games" },
 ];
 
 export default function MainAppBar({

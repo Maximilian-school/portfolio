@@ -1,5 +1,4 @@
 import "7.css";
-import "devicon/devicon.min.css";
 import type { Metadata } from "next";
 import { Noto_Sans } from "next/font/google";
 import Image from "next/image";
@@ -17,8 +16,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
     children,
+    params,
 }: Readonly<{
     children: React.ReactNode;
+    params: {};
 }>) {
     return (
         <html lang="en" className={`${notoSans.variable} h-full antialiased`}>
@@ -30,6 +31,7 @@ export default function RootLayout({
                     className="fixed top-0 left-0 object-cover -z-10 select-none"
                     draggable={false}
                 />
+
                 {children}
             </body>
         </html>

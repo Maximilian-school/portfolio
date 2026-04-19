@@ -387,6 +387,7 @@ export default function ErrorTemplate({
                         <div className="title-bar-text">Physics Engine</div>
                         <div className="title-bar-controls">
                             <button
+                                aria-label="Minimize"
                                 onClick={() =>
                                     setPhysicsOptionsMinimized(
                                         !physicsOptionsMinimized,
@@ -430,7 +431,7 @@ export default function ErrorTemplate({
                                 <input
                                     type="range"
                                     min="0"
-                                    max="1"
+                                    max="1.1"
                                     step="0.0001"
                                     value={bounce}
                                     onChange={(e) => {
