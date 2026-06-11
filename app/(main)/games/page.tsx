@@ -7,6 +7,15 @@ import { useState } from "react";
 
 const GAMES_DATA = [
     {
+        id: "2048",
+        title: "2048",
+        description:
+            "A simple puzzle game where you combine tiles to reach the 2048 tile!",
+        link: "/games/2048",
+        category: "Puzzle",
+        releaseDate: "2026-11-6",
+    },
+    {
         id: "the-switch",
         title: "The Switch",
         description:
