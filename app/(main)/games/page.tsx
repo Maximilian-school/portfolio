@@ -7,15 +7,6 @@ import { useState } from "react";
 
 const GAMES_DATA = [
     {
-        id: "2048",
-        title: "2048",
-        description:
-            "A simple puzzle game where you combine tiles to reach the 2048 tile!",
-        link: "/games/2048",
-        category: "Puzzle",
-        releaseDate: "2026-11-6",
-    },
-    {
         id: "the-switch",
         title: "The Switch",
         description:
@@ -32,6 +23,15 @@ const GAMES_DATA = [
         category: "Strategy",
         releaseDate: "2026-04-18",
     },
+    {
+        id: "2048",
+        title: "2048",
+        description:
+            "A simple puzzle game where you combine tiles to reach the 2048 tile!",
+        link: "/games/2048",
+        category: "Puzzle",
+        releaseDate: "2026-11-6",
+    },
 ];
 
 export default function Games() {
@@ -47,7 +47,7 @@ export default function Games() {
                 explorerName="Browse Games"
                 initialData={GAMES_DATA}
                 searchableFields={["title", "description"]}
-                defaultSort="title"
+                defaultSort="releaseDate"
                 sortOptions={[
                     { label: "Name", value: "title" },
                     { label: "Release Date", value: "releaseDate" },
