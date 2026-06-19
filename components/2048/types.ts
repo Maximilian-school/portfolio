@@ -11,6 +11,7 @@ export type Tile = {
 
   merged?: boolean;
   remove?: boolean;
+  isNew?: boolean;
 };
 
 export type Direction = "up" | "down" | "left" | "right";

@@ -37,6 +37,7 @@ export function spawnTile(tiles: Tile[]): Tile | null {
     col,
     targetRow: row,
     targetCol: col,
+    isNew: true,
   };
 }
 
@@ -154,4 +155,36 @@ export function moveTiles(
   }
 
   return { tiles: result, scoreGain: score };
+}
+
+export function isGameOver(tiles: Tile[]): boolean {
+  const grid: (Tile | null)[][] = createEmpty();
+
+  tiles.forEach((t) => {
+    grid[t.row][t.col] = t;
+  });
+
+  // if any empty cell -> not game over
+  for (let r = 0; r < SIZE; r++) {
+    for (let c = 0; c < SIZE; c++) {
+      if (!grid[r][c]) return false;
+    }
+  }
+
+  // check for possible merges horizontally or vertically
+  for (let r = 0; r < SIZE; r++) {
+    for (let c = 0; c < SIZE; c++) {
+      const t = grid[r][c]!;
+      if (c + 1 < SIZE) {
+        const right = grid[r][c + 1];
+        if (right && right.value === t.value) return false;
+      }
+      if (r + 1 < SIZE) {
+        const down = grid[r + 1][c];
+        if (down && down.value === t.value) return false;
+      }
+    }
+  }
+
+  return true;
 }
