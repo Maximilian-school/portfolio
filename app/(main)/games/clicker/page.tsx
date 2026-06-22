@@ -104,7 +104,7 @@ export default function ClickerGame() {
   return (
     <div className="mx-auto my-8 window active max-w-6xl min-h-[80vh] shadow-xl select-none">
       <div className="title-bar">
-        <div className="title-bar-text">Point Clicker 7.css</div>
+        <div className="title-bar-text">Point Clicker</div>
         <div className="title-bar-controls">
           <button aria-label="Minimize"></button>
           <button aria-label="Maximize"></button>

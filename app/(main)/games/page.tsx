@@ -32,6 +32,14 @@ const GAMES_DATA = [
         category: "Puzzle",
         releaseDate: "2026-11-6",
     },
+    {
+        "id": "clicker",
+        "title": "Point Clicker",
+        "description": "Click the button to earn points and buy upgrades to earn more points!",
+        "link": "/games/clicker",
+        "category": "Idle",
+        "releaseDate": "2026-22-6"
+    }
 ];
 
 export default function Games() {
